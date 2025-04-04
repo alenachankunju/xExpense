@@ -73,6 +73,18 @@ const App = () => {
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState(null);
 
+  useEffect(() => {
+    const savedExpenses = localStorage.getItem("expenses");
+    const savedBalance = localStorage.getItem("balance");
+
+    if (savedExpenses) setExpenses(JSON.parse(savedExpenses));
+    if (savedBalance) setBalance(parseFloat(savedBalance));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+    localStorage.setItem("balance", balance.toString());
+  }, [expenses, balance]);
   // Calculate top expense categories
   const topExpenses = [
     { category: "Food", percentage: 40 },
