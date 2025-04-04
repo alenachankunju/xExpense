@@ -16,6 +16,7 @@ const RecentTransactions = ({ transactions, onEdit, onDelete }) => {
           transactions.map((txn) => (
             <li key={txn.id} className="transaction-item" name={txn.category}>
               <div className="transaction-info">
+                <span className="title">{txn.title}</span>
                 <span className="category">{formatCategory(txn.category)}</span>
                 <span className="date">{txn.date}</span>
                 <span className="amount">${txn.amount.toFixed(2)}</span>
