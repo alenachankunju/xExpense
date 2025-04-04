@@ -39,6 +39,7 @@ const AddExpenseModal = ({ isOpen, onClose, onAddExpense }) => {
         <div className="form-group">
           <label>Category</label>
           <select
+            name="Title"
             value={formData.category}
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
@@ -52,10 +53,10 @@ const AddExpenseModal = ({ isOpen, onClose, onAddExpense }) => {
           </select>
         </div>
         <div className="form-group">
-          <label>Amount</label>
+          <label>Price</label>
           <input
             type="number"
-            name="title"
+            name="Price"
             value={formData.amount}
             onChange={(e) =>
               setFormData({ ...formData, amount: e.target.value })
