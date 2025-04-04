@@ -36,7 +36,7 @@ const App = () => {
       id: 4,
       title: "Brunch Flight ",
       category: "Other",
-      amount: 50,
+      amount: 300,
       date: "2024-05-29",
     },
     {
@@ -57,7 +57,7 @@ const App = () => {
       id: 7,
       title: "Concert",
       category: "Entertainment",
-      amount: 500,
+      amount: 600,
       date: "2024-05-29",
     },
     {
