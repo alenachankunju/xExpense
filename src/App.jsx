@@ -43,7 +43,7 @@ const App = () => {
       id: 5,
       title: "Movie Night",
       category: "Entertainment",
-      amount: 500,
+      amount: 600,
       date: "2024-05-29",
     },
     {
