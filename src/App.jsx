@@ -8,7 +8,7 @@ import AddExpenseModal from "./components/AddExpenseModal";
 import "./App.css";
 
 const App = () => {
-  const [balance, setBalance] = useState(2000);
+  const [balance, setBalance] = useState(5000);
   const [totalExpenses, setTotalExpenses] = useState(5000);
   const [transactions, setTransactions] = useState([
     { id: 1, category: "Food", amount: 50, date: "2024-05-29" },
