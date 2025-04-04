@@ -15,7 +15,7 @@ const App = () => {
       id: 1,
       title: "Dinner",
       category: "Food",
-      amount: 1000,
+      amount: 300,
       date: "2024-05-29",
     },
     {
@@ -35,8 +35,8 @@ const App = () => {
     {
       id: 4,
       title: "Brunch Flight ",
-      category: "Other",
-      amount: 300,
+      category: "Travel",
+      amount: 1000,
       date: "2024-05-29",
     },
     {
@@ -64,7 +64,7 @@ const App = () => {
       id: 8,
       title: "Train Ticket",
       category: "Travel",
-      amount: 50,
+      amount: 600,
       date: "2024-05-29",
     },
     // Add more sample transactions
