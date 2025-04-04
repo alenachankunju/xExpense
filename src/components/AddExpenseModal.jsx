@@ -57,7 +57,7 @@ const AddExpenseModal = ({ isOpen, onClose, onAddExpense }) => {
           <label>Price</label>
           <input
             type="number"
-            name="Price"
+            name="price"
             value={formData.amount}
             onChange={(e) =>
               setFormData({ ...formData, amount: e.target.value })
