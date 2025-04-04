@@ -16,7 +16,7 @@ const App = () => {
 
   const [totalExpenses, setTotalExpenses] = useState(() => {
     const savedTotalExpenses = localStorage.getItem("totalExpenses");
-    return savedTotalExpenses ? parseFloat(savedTotalExpenses) : 5000;
+    return savedTotalExpenses ? parseFloat(savedTotalExpenses) : 0;
   });
   const [transactions, setTransactions] = useState(() => {
     const savedTransactions = localStorage.getItem("transactions");
