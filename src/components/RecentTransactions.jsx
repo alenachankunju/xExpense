@@ -14,7 +14,7 @@ const RecentTransactions = ({ transactions, onEdit, onDelete }) => {
           <li className="no-transactions">No transactions yet</li>
         ) : (
           transactions.map((txn) => (
-            <li key={txn.id} className="transaction-item">
+            <li key={txn.id} className="transaction-item" name={txn.category}>
               <div className="transaction-info">
                 <span className="category">{formatCategory(txn.category)}</span>
                 <span className="date">{txn.date}</span>
