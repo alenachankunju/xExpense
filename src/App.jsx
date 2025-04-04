@@ -39,6 +39,34 @@ const App = () => {
       amount: 50,
       date: "2024-05-29",
     },
+    {
+      id: 5,
+      title: "Movie Night",
+      category: "Other",
+      amount: 50,
+      date: "2024-05-29",
+    },
+    {
+      id: 6,
+      title: "Flight",
+      category: "Other",
+      amount: 50,
+      date: "2024-05-29",
+    },
+    {
+      id: 7,
+      title: "Concert",
+      category: "Other",
+      amount: 50,
+      date: "2024-05-29",
+    },
+    {
+      id: 8,
+      title: "Train Ticket",
+      category: "Other",
+      amount: 50,
+      date: "2024-05-29",
+    },
     // Add more sample transactions
   ]);
   const [showIncomeModal, setShowIncomeModal] = useState(false);
