@@ -1,143 +1,113 @@
 import React, { useState, useEffect } from "react";
-import BalanceDisplay from "./components/BalanceDisplay";
-import ExpenseList from "./components/ExpenseList";
-import ExpenseSummary from "./components/ExpenseSummary";
-import ExpenseTrends from "./components/ExpenseTrends";
-import AddBalanceModal from "./components/AddBalanceModal";
+import BalanceCard from "./components/BalanceCard";
+import ExpensesCard from "./components/ExpensesCard";
+import RecentTransactions from "./components/RecentTransactions";
+import TopExpenses from "./components/TopExpenses";
+import AddIncomeModal from "./components/AddIncomeModal";
 import AddExpenseModal from "./components/AddExpenseModal";
-import { SnackbarProvider, useSnackbar } from "notistack";
 import "./App.css";
 
-const AppWrapper = () => {
-  return (
-    <SnackbarProvider maxSnack={3}>
-      <App />
-    </SnackbarProvider>
-  );
-};
-
 const App = () => {
-  const [balance, setBalance] = useState(5000);
-  const [expenses, setExpenses] = useState([]);
-  const [showBalanceModal, setShowBalanceModal] = useState(false);
+  const [balance, setBalance] = useState(2000);
+  const [totalExpenses, setTotalExpenses] = useState(5000);
+  const [transactions, setTransactions] = useState([
+    { id: 1, category: "food", amount: 50, date: "2024-05-29" },
+    // Add more sample transactions
+  ]);
+  const [showIncomeModal, setShowIncomeModal] = useState(false);
   const [showExpenseModal, setShowExpenseModal] = useState(false);
-  const [editingExpense, setEditingExpense] = useState(null);
-  const { enqueueSnackbar } = useSnackbar();
+  const [editingTransaction, setEditingTransaction] = useState(null);
 
-  useEffect(() => {
-    const storedBalance = localStorage.getItem("balance");
-    const storedExpenses = localStorage.getItem("expenses");
+  // Calculate top expense categories
+  const topExpenses = [
+    { category: "Food", percentage: 40 },
+    { category: "Entertainment", percentage: 30 },
+    { category: "Travel", percentage: 20 },
+    { category: "Other", percentage: 10 },
+  ];
 
-    if (storedBalance) setBalance(parseFloat(storedBalance));
-    if (storedExpenses) setExpenses(JSON.parse(storedExpenses));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("balance", balance.toString());
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  }, [balance, expenses]);
-
-  const handleAddBalance = (amount) => {
-    setBalance((prev) => prev + amount);
-    enqueueSnackbar(`Added $${amount} to balance`, { variant: "success" });
-  };
-
-  const handleAddExpense = (expense) => {
-    if (expense.price > balance) {
-      enqueueSnackbar("Expense exceeds wallet balance!", { variant: "error" });
-      return false;
-    }
-
-    if (editingExpense) {
-      const originalAmount = editingExpense.price;
-      setExpenses((prev) =>
-        prev.map((exp) => (exp.id === editingExpense.id ? expense : exp))
-      );
-      setBalance((prev) => prev + originalAmount - expense.price);
-      enqueueSnackbar("Expense updated successfully", { variant: "success" });
-    } else {
-      setExpenses((prev) => [...prev, expense]);
-      setBalance((prev) => prev - expense.price);
-      enqueueSnackbar("Expense added successfully", { variant: "success" });
-    }
-
-    setEditingExpense(null);
-    return true;
-  };
-
-  const handleEditExpense = (expense) => {
-    setEditingExpense(expense);
+  const handleEditTransaction = (transaction) => {
+    // Set the transaction to edit in the expense modal
+    setEditingTransaction(transaction);
     setShowExpenseModal(true);
   };
 
-  const handleDeleteExpense = (id, price) => {
-    setExpenses((prev) => prev.filter((exp) => exp.id !== id));
-    setBalance((prev) => prev + price);
-    enqueueSnackbar("Expense deleted successfully", { variant: "success" });
+  const handleDeleteTransaction = (id) => {
+    const transactionToDelete = transactions.find((t) => t.id === id);
+    if (transactionToDelete) {
+      setTransactions(transactions.filter((t) => t.id !== id));
+      setTotalExpenses((prev) => prev - transactionToDelete.amount);
+      setBalance((prev) => prev + transactionToDelete.amount);
+    }
+  };
+  const handleAddExpense = (expense) => {
+    if (editingTransaction) {
+      // Update existing transaction
+      const originalAmount = editingTransaction.amount;
+      setTransactions(
+        transactions.map((t) => (t.id === expense.id ? expense : t))
+      );
+      setTotalExpenses(totalExpenses - originalAmount + expense.amount);
+      setBalance(balance + originalAmount - expense.amount);
+      setEditingTransaction(null);
+    } else {
+      // Add new transaction
+      setTransactions([...transactions, expense]);
+      setTotalExpenses(totalExpenses + expense.amount);
+      setBalance(balance - expense.amount);
+    }
+    setShowExpenseModal(false);
   };
 
   return (
-    <div className="app-container">
+    <div className="expense-tracker">
       <h1>Expense Tracker</h1>
 
-      <div className="balance-section">
-        <BalanceDisplay
+      <div className="dashboard">
+        <BalanceCard
           balance={balance}
-          onAddBalance={() => setShowBalanceModal(true)}
+          onAddIncome={() => setShowIncomeModal(true)}
         />
-      </div>
 
-      <div className="action-buttons">
-        <button
-          type="button"
-          className="btn add-income-btn"
-          onClick={() => setShowBalanceModal(true)}
-        >
-          + Add Income
-        </button>
-        <button
-          type="button"
-          className="btn add-expense-btn"
-          onClick={() => setShowExpenseModal(true)}
-        >
-          + Add Expense
-        </button>
-      </div>
-
-      <div className="charts-container">
-        <div className="chart">
-          <ExpenseSummary expenses={expenses} />
-        </div>
-        <div className="chart">
-          <ExpenseTrends expenses={expenses} />
-        </div>
-      </div>
-
-      <div className="expense-list-container">
-        <ExpenseList
-          expenses={expenses}
-          onEdit={handleEditExpense}
-          onDelete={handleDeleteExpense}
+        <ExpensesCard
+          totalExpenses={totalExpenses}
+          onAddExpense={() => setShowExpenseModal(true)}
         />
+
+        <RecentTransactions
+          transactions={transactions.slice(0, 5)} // Show only 5 most recent
+          onEdit={handleEditTransaction}
+          onDelete={handleDeleteTransaction}
+        />
+
+        <TopExpenses categories={topExpenses} />
       </div>
 
-      <AddBalanceModal
-        isOpen={showBalanceModal}
-        onClose={() => setShowBalanceModal(false)}
-        onAddBalance={handleAddBalance}
+      <AddIncomeModal
+        isOpen={showIncomeModal}
+        onClose={() => setShowIncomeModal(false)}
+        onAddIncome={(amount) => {
+          setBalance((b) => b + amount);
+          setShowIncomeModal(false);
+        }}
       />
 
       <AddExpenseModal
         isOpen={showExpenseModal}
         onClose={() => {
           setShowExpenseModal(false);
-          setEditingExpense(null);
+          setEditingTransaction(null);
         }}
-        onAddExpense={handleAddExpense}
-        expense={editingExpense}
+        onAddExpense={(expense) => {
+          setTransactions((t) => [...t, expense]);
+          setTotalExpenses((t) => t + expense.amount);
+          setBalance((b) => b - expense.amount);
+          setShowExpenseModal(false);
+        }}
+        transactionToEdit={editingTransaction}
       />
     </div>
   );
 };
 
-export default AppWrapper;
+export default App;
