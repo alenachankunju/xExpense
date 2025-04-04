@@ -40,7 +40,7 @@ const AddExpenseModal = ({ isOpen, onClose, onAddExpense }) => {
           <label>Category</label>
           <input type="text" name="title" id="" />
           <select
-            name="Category"
+            name="category"
             value={formData.category}
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
