@@ -69,6 +69,7 @@ const AddExpenseModal = ({ isOpen, onClose, onAddExpense }) => {
           <label>Date</label>
           <input
             type="date"
+            name="date"
             value={formData.date}
             onChange={(e) => setFormData({ ...formData, date: e.target.value })}
             required
