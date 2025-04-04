@@ -38,8 +38,9 @@ const AddExpenseModal = ({ isOpen, onClose, onAddExpense }) => {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Category</label>
+          <input type="text" name="title" id="" />
           <select
-            name="Title"
+            name="Category"
             value={formData.category}
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
