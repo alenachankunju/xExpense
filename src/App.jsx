@@ -15,7 +15,7 @@ const App = () => {
   });
 
   const [totalExpenses, setTotalExpenses] = useState(() => {
-    const savedTotalExpenses = localStorage.getItem("totalExpenses");
+    const savedTotalExpenses = localStorage.getItem("expenses");
     return savedTotalExpenses ? parseFloat(savedTotalExpenses) : 0;
   });
   const [transactions, setTransactions] = useState(() => {
@@ -90,7 +90,7 @@ const App = () => {
   // Save to localStorage whenever state changes
   useEffect(() => {
     localStorage.setItem("balance", balance.toString());
-    localStorage.setItem("totalExpenses", totalExpenses.toString());
+    localStorage.setItem("expenses", totalExpenses.toString());
     localStorage.setItem("transactions", JSON.stringify(transactions));
   }, [balance, totalExpenses, transactions]);
 
