@@ -87,29 +87,6 @@ const App = () => {
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState(null);
 
-  useEffect(() => {
-    // Initialize with localStorage or defaults
-    const initializeData = () => {
-      const expenses = localStorage.getItem("expenses");
-      const transactions = localStorage.getItem("transactions");
-
-      // Set default expenses if empty
-      if (!expenses || expenses.length === 0) {
-        localStorage.setItem("expenses", "5000");
-      }
-
-      // Set default transactions if empty
-      if (!transactions || JSON.parse(transactions).length === 0) {
-        localStorage.setItem(
-          "transactions",
-          JSON.stringify([...defaultTransactions])
-        );
-      }
-    };
-
-    initializeData();
-  }, []);
-
   // Save to localStorage whenever state changes
   useEffect(() => {
     localStorage.setItem("balance", balance.toString());
