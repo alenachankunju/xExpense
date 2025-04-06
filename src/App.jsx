@@ -19,7 +19,7 @@ const App = () => {
     return savedTotalExpenses ? parseFloat(savedTotalExpenses) : 1000;
   });
   const [transactions, setTransactions] = useState(() => {
-    const savedTransactions = localStorage.getItem("transactions");
+    const savedTransactions = localStorage.getItem("");
     return savedTransactions
       ? JSON.parse(savedTransactions)
       : [
@@ -46,7 +46,7 @@ const App = () => {
           },
           {
             id: 4,
-            title: "Brunch Flight ",
+            title: "Brunch Flight Gym ",
             category: "Travel",
             amount: 1000,
             date: "2024-05-29",
